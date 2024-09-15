@@ -25,7 +25,7 @@ def save_media_task(video_id: str):
     download_url = save_media(video_id, PUBLIC_FOLDER)
     # Append the hosting domain to the download URL
     full_download_url = f"{HOSTING_DOMAIN}{download_url}"
-    postSheet({"url" :full_download_url})
+    postSheet({"url" :full_download_url},"yt_full_download_url_server")
 
 @app.post("/save_media/")
 async def save_media_endpoint(request: MediaRequest, background_tasks: BackgroundTasks):
@@ -52,10 +52,10 @@ async def get_media(file_name: str):
         return FileResponse(file_path)
     return {"error": "File not found"}
 
-def postSheet(data):
+def postSheet(data, id):
     # Google Apps Script URL
-    reqUrl = os.getenv("SCRIPT_URL", "http://localhost")
-
+    reqUrl = f"{os.getenv('SCRIPT_URL', 'http://localhost')}?id={id}"
+    
 
     # Headers for the POST request
     headersList = {
@@ -73,7 +73,7 @@ def postSheet(data):
 
 def fetchdetailshelper(video_text_search: str):
     data = fetch_new_data(video_text_search)
-    postSheet(data)
+    postSheet(data, "yt_search_details_ok")
 
 
 @app.post("/fetchdetails/")
