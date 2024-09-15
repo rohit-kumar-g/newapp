@@ -1,16 +1,15 @@
-import os
 import re
-import requests
+from typing import Dict
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from typing import Dict
 
+def fetch_new_data(video_text: str) -> Dict[str, str]:
+    # Remove any non-ASCII characters (including emojis) from the video_text
+    video_text_cleaned = re.sub(r'[^\x00-\x7F]+', '', video_text)
 
-def fetch_new_data() -> Dict[str, str]:
     # Initialize Chrome WebDriver in headless mode
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -21,8 +20,8 @@ def fetch_new_data() -> Dict[str, str]:
     driver = webdriver.Chrome(options=chrome_options)
 
     try:
-        # URL of the YouTube search results page
-        url = "https://www.youtube.com/results?search_query=mera+desh+mahan"
+        # Use the cleaned video_text in the YouTube search URL
+        url = f"https://www.youtube.com/results?search_query={video_text_cleaned}"
         driver.get(url)
 
         # Wait for elements to load
@@ -47,6 +46,7 @@ def fetch_new_data() -> Dict[str, str]:
         long_strings_flat = ', '.join(long_strings)
         short_strings_flat = ', '.join(short_strings)
 
+        print("i am back 2")
         return {
             "long_strings": long_strings_flat,
             "short_strings": short_strings_flat

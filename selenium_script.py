@@ -10,7 +10,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from urllib.parse import urlparse, parse_qs
 from fastapi import BackgroundTasks
 
-def save_media(video_id: str, public_folder: str):
+def save_media(video_id: str, public_folder: str) -> str:
     # Configure Chrome options for headless mode
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -57,8 +57,12 @@ def save_media(video_id: str, public_folder: str):
                 for chunk in response.iter_content(chunk_size=8192):
                     f.write(chunk)
 
-        print("i am here")
-        
+            print("i am back 1")
+
+            # Return the download URL
+            return f"/public/{file_name}"
+
+        return {}
 
     finally:
         driver.quit()
