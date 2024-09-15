@@ -16,7 +16,7 @@ app = FastAPI()
 
 # Define the public folder path
 PUBLIC_FOLDER = "public"
-HOSTING_DOMAIN = "http://applee.me"  # Replace with your actual domain
+HOSTING_DOMAIN = os.getenv("HOSTING_DOMAIN", "http://localhost")
 
 class MediaRequest(BaseModel):
     video_id: str
@@ -54,7 +54,8 @@ async def get_media(file_name: str):
 
 def postSheet(data):
     # Google Apps Script URL
-    reqUrl = "https://script.google.com/macros/s/AKfycbwm56hDzjdPndI-ii8goVM78w-2wHrnShbLkOoXpVw/dev?access_token=ya29.a0AcM612wPpH_qqIbTqUXV0BRJy8xEAjH3AXcs2dXv0glYVij3nCnSnYE3_cvM9192XnhmX8f66-0bf-1GLEXXki-dd_KB1aLQ0DWU0QabuQr7XMUqPu_mgvHM7O2YkAKoH4jr9pm_mrkxz6r7lG8coWofIKiHYmnSObqcvIXkfgaCgYKAU8SARISFQHGX2MiIsHtJoNhoKA1Ikr9ke0TTg0177"
+    reqUrl = os.getenv("SCRIPT_URL", "http://localhost")
+
 
     # Headers for the POST request
     headersList = {
