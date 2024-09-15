@@ -1,6 +1,8 @@
 from fastapi import FastAPI, BackgroundTasks
 from pydantic import BaseModel
 import os
+import json
+import requests
 from selenium_script import save_media
 from selenium_script2 import fetch_new_data
 from fastapi.responses import JSONResponse
@@ -37,5 +39,23 @@ async def get_media(file_name: str):
 
 @app.get("/fetchdetails")
 async def get_details():
+    # Fetch the data from YouTube
     data = fetch_new_data()
+
+    # Google Apps Script URL
+    reqUrl = "https://script.google.com/macros/s/AKfycbwm56hDzjdPndI-ii8goVM78w-2wHrnShbLkOoXpVw/dev?access_token=ya29.a0AcM612wMbOhxOyeS-31t5bs695WT-fyt0dWTpaMUHnI_ANd4Txw6Ah5SUCshoAHwM72YMNuWA25uVVJn33tPNkcAOChgePjSp0Gj8POT51ArAyqYq6TjkG5i4cBYAOsVh01KQ5jPl26PzYxRiMdvYDu_5JgTcshEyqulpWi8ogaCgYKAVMSARASFQHGX2Mimtrzxb3UqtRGkX1ZtAgimw0177"
+
+    # Headers for the POST request
+    headersList = {
+        "Accept": "*/*",
+        "Content-Type": "application/json"
+    }
+
+    # Convert the data to JSON
+    payload = json.dumps(data)
+
+    # Make the POST request
+    response = requests.request("POST", reqUrl, data=payload, headers=headersList)
+
+    print(response.text)
     return JSONResponse(content=data)

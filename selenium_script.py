@@ -58,6 +58,7 @@ def save_media(video_id: str, public_folder: str):
                     f.write(chunk)
 
         print("i am here")
+        
 
     finally:
         driver.quit()
