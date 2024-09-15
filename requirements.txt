@@ -2,3 +2,4 @@ fastapi
 uvicorn
 selenium
 jinja2
+requests
