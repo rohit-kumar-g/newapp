@@ -1,18 +1,24 @@
 import os
-import time
+import re
 import requests
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from urllib.parse import urlparse, parse_qs
-import requests
-import re
-
+from fastapi import BackgroundTasks
 
 def save_media(video_id: str, public_folder: str):
-    # Initialize Chrome WebDriver
-    driver = webdriver.Chrome()
+    # Configure Chrome options for headless mode
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+
+    # Initialize Chrome WebDriver with options
+    driver = webdriver.Chrome(options=chrome_options)
 
     try:
         # Open the target URL
@@ -40,23 +46,18 @@ def save_media(video_id: str, public_folder: str):
         download_link = download_link_element.get_attribute("href")
 
         if download_link and not download_link.startswith("javascript:void(0)"):
-            # Download the media file directly to the server
-
-            # Parse URL to extract query parameters
-            parsed_url = urlparse(download_link)
-            query_params = parse_qs(parsed_url.query)
-
-            # Construct a valid filename
-            file_name = query_params.get('id', ['default'])[0]
-            file_name = re.sub(r'[\/:*?"<>|]', '', file_name) + '.mp4'
+            # Construct a valid filename using video_id
+            file_name = f"{video_id}.mp4"
             file_path = os.path.join(public_folder, file_name)
-            
+
             # Download the media file
             response = requests.get(download_link, stream=True)
             response.raise_for_status()  # Ensure we notice bad responses
             with open(file_path, 'wb') as f:
                 for chunk in response.iter_content(chunk_size=8192):
                     f.write(chunk)
-            
+
+        print("i am here")
+
     finally:
         driver.quit()

@@ -1,0 +1,7 @@
+public/*
+./venv
+./__pycache__/*
+app/__pycache__/*
+app/__pycache__/main.cpython-310.pyc
+__pycache__/selenium_script.cpython-310.pyc
+__pycache__/selenium_script2.cpython-310.pyc
