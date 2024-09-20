@@ -1,12 +1,11 @@
 services:
-  webaqsdas7:
-    build: .
-      # context: .
-    # environment:
-    #   FLASK_APP: run
-    #   FLASK_DEBUG: 1
-    # # volumes:
-    # #   - .:/app
-    # command: uvicorn app.main:app --host 0.0.0.0 --port 10000 --reload
+  w4sdebaqsdwwedasas7:
+    build: 
+      context: .
+    deploy:
+      resources:
+        limits:
+          memory: 500M
     ports:
       - 10000:10000
+    restart: on-failure

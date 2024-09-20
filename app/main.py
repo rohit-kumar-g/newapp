@@ -24,11 +24,17 @@ HOSTING_DOMAIN = os.getenv("HOSTING_DOMAIN", "http://localhost")
 class MediaRequest(BaseModel):
     video_id: str
 
+    
 def save_media_task(video_id: str):
-    download_url = save_media(video_id, PUBLIC_FOLDER)
-    # Append the hosting domain to the download URL
-    full_download_url = f"{HOSTING_DOMAIN}{download_url}"
-    postSheet({"url" :full_download_url},"yt_full_download_url_server")
+    try:
+        download_url = save_media(video_id, PUBLIC_FOLDER)
+        # Append the hosting domain to the download URL
+        full_download_url = f"{HOSTING_DOMAIN}{download_url}"
+        postSheet({"url": full_download_url}, "yt_full_download_url_server")
+    except Exception as e:
+        # Handle the exception (e.g., log the error)
+        print(f"An error occurred: {e}")
+
 
 @app.post("/save_media/")
 async def save_media_endpoint(request: MediaRequest, background_tasks: BackgroundTasks):
