@@ -1,12 +1,12 @@
 services:
-  webaq:
+  webaq7:
     build:
       context: .
     environment:
       FLASK_APP: run
       FLASK_DEBUG: 1
-    volumes:
-      - .:/app
+    # volumes:
+    #   - .:/app
     command: uvicorn app.main:app --host 0.0.0.0 --port 10000 --reload
     ports:
       - 10000:10000
