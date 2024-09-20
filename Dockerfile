@@ -38,13 +38,13 @@ RUN wget https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.58/
     rm chromedriver-linux64.zip
 
     # Download and install Chrome Headless
-RUN wget https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.58/linux64/chrome-headless-shell-linux64.zip && \
-    unzip chrome-headless-shell-linux64.zip -d /opt && \
-    rm chrome-headless-shell-linux64.zip
+# RUN wget https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.58/linux64/chrome-headless-shell-linux64.zip && \
+#     unzip chrome-headless-shell-linux64.zip -d /opt && \
+#     rm chrome-headless-shell-linux64.zip
 
 # Set up environment variable for Chrome
 ENV PATH="/opt/chrome-linux64:${PATH}"
-ENV PATH="/opt/chrome-headless-shell-linux64:${PATH}"
+# ENV PATH="/opt/chrome-headless-shell-linux64:${PATH}"
 ENV PATH="/opt/chromedriver-linux64:${PATH}"
 
 # Copy requirements.txt into the container
@@ -61,7 +61,7 @@ COPY . .
 # ENV SCRIPT_URL=https://script.google.com/macros/s/your-script-id/dev
 
 # Expose the port the app runs on
-EXPOSE 10000
+EXPOSE 8000
 
 # Command to run the FastAPI app using Uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "10000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

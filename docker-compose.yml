@@ -1,5 +1,5 @@
 services:
-  w4sdebaqsdwwedasas7:
+  myselirun1:
     build: 
       context: .
     deploy:
@@ -7,5 +7,5 @@ services:
         limits:
           memory: 500M
     ports:
-      - 10000:10000
+      - 8000:8000
     restart: on-failure

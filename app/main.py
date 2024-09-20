@@ -48,6 +48,10 @@ class FetchDetailsRequest(BaseModel):
     title: str  # For fetching YouTube data
 
 
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
 @app.get("/media/")
 async def list_media():
     media_files = [f for f in os.listdir(PUBLIC_FOLDER) if f.endswith('.mp4')]
