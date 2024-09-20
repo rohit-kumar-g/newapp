@@ -2,7 +2,7 @@
 FROM python:3.10-slim
 
 # Set the working directory inside the container
-WORKDIR /aprrp
+WORKDIR /app
 
 # Install required system packages for Chrome and SeleniumRUN apt-get update && apt-get install -y \
 RUN apt-get update && apt-get install -y \
@@ -61,7 +61,7 @@ COPY . .
 # ENV SCRIPT_URL=https://script.google.com/macros/s/your-script-id/dev
 
 # Expose the port the app runs on
-EXPOSE 8000
+EXPOSE 10000
 
 # Command to run the FastAPI app using Uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "10000", "--reload"]

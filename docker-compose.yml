@@ -7,6 +7,6 @@ services:
       FLASK_DEBUG: 1
     volumes:
       - .:/app
-    command: flask run -h 0.0.0.0
+    command: uvicorn app.main:app 
     ports:
       - 10000:10000
