@@ -3,3 +3,10 @@ uvicorn
 selenium
 jinja2
 requests
+
+selenium
+fastapi
+pydantic
+python-dotenv
+uvicorn
+requests

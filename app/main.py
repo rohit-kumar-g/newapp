@@ -15,7 +15,7 @@ from selenium_script import save_media
 app = FastAPI()
 
 # Define the public folder path
-PUBLIC_FOLDER = "public"
+PUBLIC_FOLDER = "../public"
 HOSTING_DOMAIN = os.getenv("HOSTING_DOMAIN", "http://localhost")
 
 class MediaRequest(BaseModel):
