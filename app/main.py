@@ -70,6 +70,7 @@ async def get_media(file_name: str):
     return {"error": "File not found"}
 
 def postSheet(data, id):
+    print("posting "+ id)
     # Google Apps Script URL
     try:
         reqUrl = f"{os.getenv('SCRIPT_URL', 'http://localhost')}?id={id}"
