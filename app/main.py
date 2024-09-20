@@ -12,6 +12,10 @@ from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 import os
 from app.selenium_script import save_media
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = FastAPI()
 app.mount("/public", StaticFiles(directory="app/media"), name="public")
@@ -26,14 +30,14 @@ class MediaRequest(BaseModel):
 
     
 def save_media_task(video_id: str):
-    try:
+    # try:
         download_url = save_media(video_id, PUBLIC_FOLDER)
         # Append the hosting domain to the download URL
         full_download_url = f"{HOSTING_DOMAIN}{download_url}"
         postSheet({"url": full_download_url}, "yt_full_download_url_server")
-    except Exception as e:
-        # Handle the exception (e.g., log the error)
-        print(f"An error occurred: {e}")
+    # except Exception as e:
+    #     # Handle the exception (e.g., log the error)
+    #     print(f"An error occurred: {e}")
 
 
 @app.post("/save_media/")
@@ -67,26 +71,35 @@ async def get_media(file_name: str):
 
 def postSheet(data, id):
     # Google Apps Script URL
-    reqUrl = f"{os.getenv('SCRIPT_URL', 'http://localhost')}?id={id}"
-    
+    try:
+        reqUrl = f"{os.getenv('SCRIPT_URL', 'http://localhost')}?id={id}"
+        
 
-    # Headers for the POST request
-    headersList = {
-        "Accept": "*/*",
-        "Content-Type": "application/json"
-    }
+        # Headers for the POST request
+        headersList = {
+            "Accept": "*/*",
+            "Content-Type": "application/json"
+        }
 
-    # Convert the data to JSON
-    payload = json.dumps(data)
+        # Convert the data to JSON
+        payload = json.dumps(data)
 
-    # Make the POST request
-    response = requests.request("POST", reqUrl, data=payload, headers=headersList)
+        # Make the POST request
+        response = requests.request("POST", reqUrl, data=payload, headers=headersList)
 
-    print(response.text)
-
+        print(response.text)
+    except Exception as e:
+        # Handle the exception (e.g., log the error)
+        print(f"An error occurred: {e}")
 def fetchdetailshelper(video_text_search: str):
     data = fetch_new_data(video_text_search)
     postSheet(data, "yt_search_details_ok")
+
+@app.post("/fet/")
+async def get_det(request: FetchDetailsRequest):
+    video_text_search = request.title  # Assuming FetchDetailsRequest has a field named 'video_text'
+    data = fetch_new_data(video_text_search)
+    return data
 
 
 @app.post("/fetchdetails/")

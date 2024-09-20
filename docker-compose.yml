@@ -1,5 +1,5 @@
 services:
-  myselirun1:
+  selirdsadasdsadunj:
     build: 
       context: .
     deploy:
