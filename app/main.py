@@ -7,15 +7,18 @@ from fastapi.responses import JSONResponse
 from selenium_script import save_media
 from selenium_script2 import fetch_new_data
 from fastapi import FastAPI, BackgroundTasks
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 import os
 from selenium_script import save_media
 
 app = FastAPI()
+app.mount("/public", StaticFiles(directory="public"), name="public")
+
 
 # Define the public folder path
-PUBLIC_FOLDER = "../public"
+PUBLIC_FOLDER = "./public"
 HOSTING_DOMAIN = os.getenv("HOSTING_DOMAIN", "http://localhost")
 
 class MediaRequest(BaseModel):
@@ -42,7 +45,7 @@ class FetchDetailsRequest(BaseModel):
 @app.get("/media/")
 async def list_media():
     media_files = [f for f in os.listdir(PUBLIC_FOLDER) if f.endswith('.mp4')]
-    media_links = [f"/media/{file}" for file in media_files]
+    media_links = [f"/public/{file}" for file in media_files]
     return {"media_links": media_links}
 
 @app.get("/media/{file_name}")
