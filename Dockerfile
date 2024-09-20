@@ -33,11 +33,11 @@ RUN wget https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.58/
     unzip chrome-linux64.zip -d /opt && \
     rm chrome-linux64.zip
 # Download and install Chrome
-RUN wget https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.58/linux64/chrome-linux64.zip && \
+RUN wget https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.58/linux64/chromedriver-linux64.zip && \
     unzip chromedriver-linux64.zip -d /opt && \
     rm chromedriver-linux64.zip
-# https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.58/linux64/chromedriver-linux64.zip
-# Download and install Chrome Headless
+
+    # Download and install Chrome Headless
 RUN wget https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.58/linux64/chrome-headless-shell-linux64.zip && \
     unzip chrome-headless-shell-linux64.zip -d /opt && \
     rm chrome-headless-shell-linux64.zip
