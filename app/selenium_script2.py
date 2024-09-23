@@ -52,7 +52,8 @@ def fetch_new_data(video_text: str) -> Dict[str, str]:
         print("i am back 2")
         return {
             "long_strings": long_strings_flat,
-            "short_strings": short_strings_flat
+            "short_strings": short_strings_flat,
+            "db": "ytdesc91"
         }
     finally:
         driver.quit()
