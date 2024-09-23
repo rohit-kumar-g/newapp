@@ -18,7 +18,7 @@ import os
 load_dotenv()
 
 app = FastAPI()
-app.mount("/public", StaticFiles(directory="app/media"), name="public")
+app.mount("/media", StaticFiles(directory="app/media"), name="public")
 
 
 # Define the public folder path
@@ -59,7 +59,7 @@ async def root():
 @app.get("/media/")
 async def list_media():
     media_files = [f for f in os.listdir(PUBLIC_FOLDER) if f.endswith('.mp4')]
-    media_links = [f"/public/{file}" for file in media_files]
+    media_links = [f"/media/{file}" for file in media_files]
     return {"media_links": media_links}
 
 @app.get("/media/{file_name}")
