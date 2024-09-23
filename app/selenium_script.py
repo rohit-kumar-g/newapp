@@ -60,7 +60,7 @@ def save_media(video_id: str, public_folder: str) -> str:
             print("i am back 1")
 
             # Return the download URL
-            return f"/public/{file_name}"
+            return f"/media/{file_name}"
 
         return {}
 
