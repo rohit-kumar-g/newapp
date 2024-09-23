@@ -46,7 +46,7 @@ def save_media(video_id: str, public_folder: str) -> str:
         download_link = download_link_element.get_attribute("href")
 
         if download_link and not download_link.startswith("javascript:void(0)"):
-            return download_link
+            # return download_link
             # Construct a valid filename using video_id
             file_name = f"{video_id}.mp4"
             file_path = os.path.join(public_folder, file_name)
