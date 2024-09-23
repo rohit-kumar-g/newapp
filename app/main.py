@@ -1,19 +1,14 @@
 from fastapi import FastAPI, BackgroundTasks, Request, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 import os
 import json
 import requests
-from fastapi.responses import JSONResponse
 from app.selenium_script import save_media
 from app.selenium_script2 import fetch_new_data
-from fastapi import FastAPI, BackgroundTasks
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-from fastapi.responses import JSONResponse
-import os
-from app.selenium_script import save_media
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
 
@@ -59,8 +54,16 @@ async def root():
 @app.get("/media/")
 async def list_media():
     media_files = [f for f in os.listdir(PUBLIC_FOLDER) if f.endswith('.mp4')]
-    media_links = [f"/media/{file}" for file in media_files]
+    media_links = [f"/public/{file}" for file in media_files]
     return {"media_links": media_links}
+
+
+@app.get("/medias/", response_class=HTMLResponse)
+async def list_media():
+    media_files = [f for f in os.listdir(PUBLIC_FOLDER) if f.endswith('.mp4')]
+    media_links = [f'<a href="/public/{file}">{file}</a>' for file in media_files]
+    return "<br>".join(media_links)
+
 
 @app.get("/media/{file_name}")
 async def get_media(file_name: str):
