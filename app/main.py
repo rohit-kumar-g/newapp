@@ -18,7 +18,7 @@ import os
 load_dotenv()
 
 app = FastAPI()
-app.mount("/media", StaticFiles(directory="app/media"), name="public")
+app.mount("/public", StaticFiles(directory="app/media"), name="public")
 
 
 # Define the public folder path

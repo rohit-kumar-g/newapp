@@ -1,7 +1,10 @@
 public/*
 ./venv
-./__pycache__/*
-app/__pycache__/*
+*.pyc
+__pycache__/**
+
+**/__pycache__/
+app/__pycache__/**
 app/__pycache__/main.cpython-310.pyc
 __pycache__/selenium_script.cpython-310.pyc
 __pycache__/selenium_script2.cpython-310.pyc
@@ -9,3 +12,7 @@ app/__pycache__/main.cpython-310.pyc
 __pycache__/selenium_script.cpython-310.pyc
 setups
 test1.py
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+app/__pycache__/main.cpython-310.pyc
