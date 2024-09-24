@@ -1,6 +1,6 @@
 from fastapi import FastAPI, BackgroundTasks, Request, HTTPException
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse,FileResponse
 from pydantic import BaseModel
 import os
 import json
@@ -50,6 +50,10 @@ class FetchDetailsRequest(BaseModel):
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return ""
 
 @app.get("/media/")
 async def list_media():
