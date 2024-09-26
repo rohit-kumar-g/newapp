@@ -28,15 +28,12 @@ class MediaRequest(BaseModel):
 
     
 def save_media_task(video_id: str , caller_to: str):
-    # try:
-        download_url = save_media(video_id, PUBLIC_FOLDER)
-        # Append the hosting domain to the download URL
-        full_download_url = f"{HOSTING_DOMAIN}{download_url}"
-        postSheet({"url": full_download_url, "db":"ytvidurl81","caller_to":caller_to}, "yt_full_download_url_server")
-    # except Exception as e:
-    #     # Handle the exception (e.g., log the error)
-    #     print(f"An error occurred: {e}")
-
+        data22 = save_media(video_id, PUBLIC_FOLDER)
+        data22['caller_to'] = caller_to 
+        data22[full_download_url] = f"{HOSTING_DOMAIN}{data22.path}"
+        print(data22)
+        postSheet(data22, "yt_full_download_url_server")
+        
 
 @app.post("/save_media/")
 async def save_media_endpoint(request: MediaRequest, background_tasks: BackgroundTasks):

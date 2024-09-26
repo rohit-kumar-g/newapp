@@ -59,10 +59,14 @@ def save_media(video_id: str, public_folder: str) -> str:
                     f.write(chunk)
 
             print("i am back 1")
+            file_size = os.path.getsize(file_path)
 
             # Return the download URL
-            return f"/media/{file_name}"
-
+            return {
+                "file_size": file_size,
+                "db":"ytvidurl81",
+                "path": f"/media/{file_name}"
+                }
         return {}
 
     finally:
