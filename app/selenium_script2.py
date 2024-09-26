@@ -18,9 +18,11 @@ def fetch_new_data(video_text: str) -> Dict[str, str]:
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
 
+
+    driver = webdriver.Chrome(options=chrome_options)
     # Initialize Chrome WebDriver with options
-    service = Service("/opt/chromedriver-linux64/chromedriver")
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    # service = Service("/opt/chromedriver-linux64/chromedriver")
+    # driver = webdriver.Chrome(service=service, options=chrome_options)
 
     try:
         # Use the cleaned video_text in the YouTube search URL

@@ -1,5 +1,6 @@
 public/*
 setups/*
+media/
 test*
 app/__pycache__/
 /__pycache__/
