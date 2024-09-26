@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def fetch_new_data(video_text: str) -> Dict[str, str]:
+def fetch_new_data(video_text: str, public_folder: str) -> Dict[str, str]:
     # Remove any non-ASCII characters (including emojis) from the video_text
     video_text_cleaned = re.sub(r'[^\x00-\x7F]+', '', video_text)
 
@@ -57,5 +57,14 @@ def fetch_new_data(video_text: str) -> Dict[str, str]:
             "short_strings": short_strings_flat,
             "db": "ytdesc91"
         }
+    except Exception as e:
+        # Capture screenshot on error
+        screenshot_path = os.path.join(public_folder, f"{video_text.slice(0,10)}_error.png")
+        driver.save_screenshot(screenshot_path)
+
+        # Log the error message and return the screenshot path
+        print(f"Error occurred: {e}")
+        return {"error": str(e), "screenshot": f"/media/{video_text.slice(0,10)}_error.png"}
+
     finally:
         driver.quit()

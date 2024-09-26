@@ -39,14 +39,13 @@ def save_media(video_id: str, public_folder: str) -> str:
         driver.execute_script("arguments[0].click();", download_button)
 
         # Wait for the process result element to be present and visible
-        WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#process-result > div > a")))
+        WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#process-result > div > a")))
 
         # Get the download link
         download_link_element = driver.find_element(By.CSS_SELECTOR, "#process-result > div > a")
         download_link = download_link_element.get_attribute("href")
 
         if download_link and not download_link.startswith("javascript:void(0)"):
-            # return download_link
             # Construct a valid filename using video_id
             file_name = f"{video_id}.mp4"
             file_path = os.path.join(public_folder, file_name)
@@ -58,7 +57,6 @@ def save_media(video_id: str, public_folder: str) -> str:
                 for chunk in response.iter_content(chunk_size=8192):
                     f.write(chunk)
 
-            print("i am back 1")
             file_size = os.path.getsize(file_path)
 
             # Return the download URL
@@ -66,8 +64,18 @@ def save_media(video_id: str, public_folder: str) -> str:
                 "file_size": file_size,
                 "db":"ytvidurl81",
                 "path": f"/media/{file_name}"
-                }
+            }
         return {}
+
+    except Exception as e:
+        
+        # Capture screenshot on error
+        screenshot_path = os.path.join(public_folder, f"{video_id}_error.png")
+        driver.save_screenshot(screenshot_path)
+
+        # Log the error message and return the screenshot path
+        print(f"Error occurred: {e}")
+        return {"error": str(e), "screenshot": f"/media/{video_id}_error.png"}
 
     finally:
         driver.quit()

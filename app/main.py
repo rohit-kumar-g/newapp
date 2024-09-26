@@ -29,8 +29,9 @@ class MediaRequest(BaseModel):
     
 def save_media_task(video_id: str , caller_to: str):
         data22 = save_media(video_id, PUBLIC_FOLDER)
+        print(data22)
         data22['caller_to'] = caller_to 
-        data22[full_download_url] = f"{HOSTING_DOMAIN}{data22.path}"
+        data22['full_download_url'] = f"{HOSTING_DOMAIN}{data22.path}"
         print(data22)
         postSheet(data22, "yt_full_download_url_server")
         
@@ -65,7 +66,7 @@ async def list_media():
 
 @app.get("/medias/", response_class=HTMLResponse)
 async def list_media():
-    media_files = [f for f in os.listdir(PUBLIC_FOLDER) if f.endswith('.mp4')]
+    media_files = [f for f in os.listdir(PUBLIC_FOLDER)]
     media_links = [f'<a href="/public/{file}">{file}</a>' for file in media_files]
     return "<br>".join(media_links)
 
@@ -79,7 +80,7 @@ async def get_media(file_name: str):
 
 
 def fetchdetailshelper(video_text_search: str, caller_to: str):
-    data = fetch_new_data(video_text_search)
+    data = fetch_new_data(video_text_search, PUBLIC_FOLDER)
     data['caller_to'] = caller_to  # Add caller_to to the data object
     postSheet(data, "yt_search_details_ok")
 
@@ -88,7 +89,7 @@ def fetchdetailshelper(video_text_search: str, caller_to: str):
 async def get_det(request: FetchDetailsRequest):
     video_text_search = request.title  # Assuming FetchDetailsRequest has a field named 'video_text'
     caller_to = request.caller_to
-    data = fetch_new_data(video_text_search)
+    data = fetch_new_data(video_text_search, PUBLIC_FOLDER)
     data['caller_to'] = caller_to  
     return data
 
