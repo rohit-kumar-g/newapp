@@ -58,14 +58,15 @@ def save_media(video_id: str, public_folder: str) -> str:
                     f.write(chunk)
 
             file_size = os.path.getsize(file_path)
+            print(str(file_size)+ "sizee")
 
             # Return the download URL
             return {
-                "file_size": file_size,
+                "file_size": str(file_size),
                 "db":"ytvidurl81",
                 "path": f"/media/{file_name}"
-            }
-        return {}
+                }
+        return {"error": "no link"}
 
     except Exception as e:
         

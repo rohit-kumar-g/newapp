@@ -1,4 +1,6 @@
 import re
+import os
+
 from typing import Dict
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -56,7 +58,7 @@ def fetch_new_data(video_text: str, public_folder: str) -> Dict[str, str]:
             "long_strings": long_strings_flat,
             "short_strings": short_strings_flat,
             "db": "ytdesc91"
-        }
+            }
     except Exception as e:
         # Capture screenshot on error
         screenshot_path = os.path.join(public_folder, f"{video_text.slice(0,10)}_error.png")
