@@ -56,7 +56,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the current directory contents into the container
 COPY . .
 
-# # Set environment variables
+# Set environment variables
+ENV PORT=8000
 # ENV HOSTING_DOMAIN=http://applee.me
 # ENV SCRIPT_URL=https://script.google.com/macros/s/your-script-id/dev
 

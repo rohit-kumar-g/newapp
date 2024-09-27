@@ -1,5 +1,5 @@
 services:
-  selirdsadasdsadunj:
+  asdsad:
     build: 
       context: .
     deploy:
@@ -7,5 +7,5 @@ services:
         limits:
           memory: 500M
     ports:
-      - 8000:8000
+      - "${PORT}:8000"
     restart: on-failure
