@@ -1,5 +1,5 @@
 services:
-  asdsad:
+  mynew222:
     build: 
       context: .
     deploy:

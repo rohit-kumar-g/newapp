@@ -1,6 +1,7 @@
 import os
 import re
 import requests
+from typing import Dict
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -10,15 +11,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from urllib.parse import urlparse, parse_qs
 from fastapi import BackgroundTasks
 
-def save_media(video_id: str, public_folder: str) -> str:
+def save_media(video_id: str, public_folder: str) -> Dict[str, str]:
+    print("downloading new media started")
     # Configure Chrome options for headless mode
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
 
-    # Initialize Chrome WebDriver with options
-    driver = webdriver.Chrome(options=chrome_options)
+    service = Service("/opt/chromedriver-linux64/chromedriver")
+    driver = webdriver.Chrome(service=service, options=chrome_options)
 
     try:
         # Open the target URL

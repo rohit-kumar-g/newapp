@@ -1,18 +1,18 @@
 import re
 import os
-
 from typing import Dict
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 def fetch_new_data(video_text: str, public_folder: str) -> Dict[str, str]:
+    print("extracting description started")
+
     # Remove any non-ASCII characters (including emojis) from the video_text
-    video_text_cleaned = re.sub(r'[^\x00-\x7F]+', '', video_text)
+    video_text_cleaned = re.sub(r'[^a-zA-Z0-9 ]', '', video_text)
 
     # Initialize Chrome WebDriver in headless mode
     chrome_options = Options()
@@ -20,11 +20,8 @@ def fetch_new_data(video_text: str, public_folder: str) -> Dict[str, str]:
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
 
-
-    driver = webdriver.Chrome(options=chrome_options)
-    # Initialize Chrome WebDriver with options
-    # service = Service("/opt/chromedriver-linux64/chromedriver")
-    # driver = webdriver.Chrome(service=service, options=chrome_options)
+    service = Service("/opt/chromedriver-linux64/chromedriver")
+    driver = webdriver.Chrome(service=service, options=chrome_options)
 
     try:
         # Use the cleaned video_text in the YouTube search URL
@@ -32,7 +29,7 @@ def fetch_new_data(video_text: str, public_folder: str) -> Dict[str, str]:
         driver.get(url)
 
         # Wait for elements to load
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'yt-formatted-string')))
+        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.TAG_NAME, 'yt-formatted-string')))
 
         # Find all elements with the tag 'yt-formatted-string'
         yt_formatted_strings = driver.find_elements(By.TAG_NAME, 'yt-formatted-string')
