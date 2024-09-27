@@ -33,7 +33,7 @@ def save_media_task(video_id: str , caller_to: str):
         data22['caller_to'] = caller_to 
         data22['full_download_url'] = f"{HOSTING_DOMAIN}{str(data22['path'])}"
 
-        print(data22)
+        # print(data22)
         postSheet(data22, "yt_full_download_url_server")
         
 

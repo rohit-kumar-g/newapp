@@ -66,7 +66,7 @@ def fetch_new_data(video_text: str, public_folder: str) -> Dict[str, str]:
 
         # Log the error message and return the screenshot path
         print(f"Error occurred: {e}")
-        return {"error": str(e), "screenshot": f"/media/{video_text.slice(0,10)}_error.png"}
+        return {"error": str(e), "screenshot": f"/media/{video_text[:9]}_error.png"}
 
     finally:
         driver.quit()
