@@ -19,7 +19,7 @@ app.mount("/public", StaticFiles(directory="app/media"), name="public")
 
 
 # Define the public folder path
-PUBLIC_FOLDER = "./app/media"
+PUBLIC_FOLDER = "app/media"
 HOSTING_DOMAIN = os.getenv("HOSTING_DOMAIN", "http://localhost")
 
 class MediaRequest(BaseModel):
@@ -31,7 +31,7 @@ def save_media_task(video_id: str , caller_to: str):
         data22 = save_media(video_id, PUBLIC_FOLDER)
         # print(data22)
         data22['caller_to'] = caller_to 
-        data22['full_download_url'] = f"{HOSTING_DOMAIN}{str(data22['path'])}"
+        data22['url'] = f"{HOSTING_DOMAIN}/public/{str(data22['file_name'])}"
 
         # print(data22)
         postSheet(data22, "yt_full_download_url_server")

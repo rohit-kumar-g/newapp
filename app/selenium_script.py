@@ -83,7 +83,8 @@ def save_media(video_id: str, public_folder: str) -> Dict[str, str]:
             return {
                 "file_size": str(file_size),
                 "db":"ytvidurl81",
-                "path": f"app/media/{file_name}"
+                "path": f"{public_folder}/{file_name}",
+                "file_name": f"{file_name}"
                 }
         return {"error": "no link"}
 
