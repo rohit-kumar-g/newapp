@@ -13,15 +13,32 @@ def fetch_new_data(video_text: str, public_folder: str) -> Dict[str, str]:
 
     # Remove any non-ASCII characters (including emojis) from the video_text
     video_text_cleaned = re.sub(r'[^a-zA-Z0-9 ]', '', video_text)
+    # Get environment variables
+    HOSTING_DOMAIN = os.getenv("HOSTING_DOMAIN")
 
     # Initialize Chrome WebDriver in headless mode
     chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')  # Disable GPU rendering
+    chrome_options.add_argument('--no-sandbox')    # Required when running as root
+    chrome_options.add_argument('--disable-dev-shm-usage')
 
-    service = Service("/opt/chromedriver-linux64/chromedriver")
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    # Block images, videos, and audio
+    chrome_options.add_experimental_option('prefs', {
+        'profile.managed_default_content_settings.images': 2,  # Block images
+        'profile.managed_default_content_settings.video': 2,   # Block videos
+        'profile.managed_default_content_settings.audio': 2    # Block audio
+    })
+
+    # Check the HOSTING_DOMAIN and decide how to initialize the WebDriver
+    if HOSTING_DOMAIN.endswith("onrender.com"):
+        # Specify the path to the chromedriver
+        service = Service("/opt/chromedriver-linux64/chromedriver")
+        # Create the WebDriver instance with the service
+        driver = webdriver.Chrome(service=service, options=chrome_options)
+    else:
+        # Create the WebDriver instance without the service
+        driver = webdriver.Chrome(options=chrome_options)
 
     try:
         # Use the cleaned video_text in the YouTube search URL
@@ -50,20 +67,19 @@ def fetch_new_data(video_text: str, public_folder: str) -> Dict[str, str]:
         long_strings_flat = ', '.join(long_strings)
         short_strings_flat = ', '.join(short_strings)
 
-        print("i am back 2")
+        print("hey r i am back 2")
         return {
             "long_strings": long_strings_flat,
             "short_strings": short_strings_flat,
             "db": "ytdesc91"
             }
     except Exception as e:
-        # Capture screenshot on error
-        screenshot_path = os.path.join(public_folder, f"{video_text.slice(0,10)}_error.png")
-        driver.save_screenshot(screenshot_path)
-
         # Log the error message and return the screenshot path
-        print(f"Error occurred: {e}")
-        return {"error": str(e), "screenshot": f"/media/{video_text[:9]}_error.png"}
+        print(f"hey r Error occurred: {e}")
+        return {"error": str(e)}
 
     finally:
+        # Capture screenshot
+        screenshot_path = os.path.join(public_folder, f"{video_text_cleaned}_debug.png")
+        driver.save_screenshot(screenshot_path)
         driver.quit()

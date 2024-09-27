@@ -33,14 +33,14 @@ def upload_video_in_chunks(resumable_url: str, video_file_path: str):
 
                 # Check the response status
                 if response.status_code in [200, 201]:
-                    print('Upload complete')
+                    print('hey r Upload complete')
                     break
                 elif response.status_code == 308:
                     # Continue uploading by adjusting the start position from the Range header
                     start = int(response.headers['Range'].split('-')[1]) + 1
                 else:
-                    print(f"Error during upload: {response.status_code}")
+                    print(f"hey r Error during upload: {response.status_code}")
                     break
 
     except Exception as e:
-        print(f"Error: {str(e)}")
+        print(f"hey r Error: {str(e)}")

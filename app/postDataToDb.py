@@ -5,7 +5,7 @@ import requests
 
 
 def postSheet(data, id):
-    print("posting "+ id)
+    print("hey r posting "+ id)
     # print(data)
     # Google Apps Script URL
     try:
@@ -24,7 +24,7 @@ def postSheet(data, id):
         # Make the POST request
         response = requests.request("POST", reqUrl, data=payload, headers=headersList)
 
-        print(response.text)
+        print("hey r "+ response.text)
     except Exception as e:
         # Handle the exception (e.g., log the error)
-        print(f"An error occurred: {e}")
+        print(f"hey r An error occurred: {e}")
